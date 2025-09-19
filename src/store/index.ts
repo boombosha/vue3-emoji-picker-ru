@@ -1,10 +1,11 @@
 import { reactive, readonly, toRaw } from 'vue'
 import { DEFAULT_EMOJI, SKIN_TONE_NEUTRAL } from '../constant'
-import { Emoji, EmojiRecord, Group, State, Store } from '../types'
-import emojis from '../data/emojis.json'
+import { Emoji, EmojiRecord, Group, State, Store, Locale } from '../types'
+import emojis from '../data/emojis-localized.json'
 import _groups from '../data/groups.json'
 import initialize, { DB_KEY, DB_VERSION, STORE_KEY } from './db'
 import { openDB } from 'idb'
+import { getFullLocaleConfig, getLocalizedEmojis } from '../locales/loader'
 
 // init db
 initialize()
@@ -21,6 +22,7 @@ const defaultOptions: Record<string, any> = {
   additionalGroups: {},
   groupOrder: [],
   groupIcons: {},
+  locale: 'en',
 }
 
 async function getRecentEmojis() {
@@ -135,7 +137,21 @@ export default function Store(): Store {
    * Update/merge options.
    * @param options
    */
-  const updateOptions = (options: Record<string, any>) => {
+  const updateOptions = async (options: Record<string, any>) => {
+    // If locale is provided, load locale-specific settings
+    if (options.locale) {
+      try {
+        const localeConfig = await getFullLocaleConfig(options.locale as Locale)
+        options = {
+          ...options,
+          staticTexts: { ...localeConfig.staticTexts, ...options.staticTexts },
+          groupNames: { ...localeConfig.groupNames, ...options.groupNames },
+        }
+      } catch (error) {
+        console.warn('Ошибка загрузки локализации:', error)
+      }
+    }
+
     state.options = Object.assign({}, state.options, options)
 
     // Picker is ready 🎉

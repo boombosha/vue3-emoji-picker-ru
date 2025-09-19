@@ -1,40 +1,55 @@
 <template>
-  <h2>Default</h2>
-  <picker :native="false" :display-recent="true" @select="onSelect" />
+  <h2>Default (English)</h2>
+  <picker :native="false" :display-recent="true" :hide-search="false" locale="en" @select="onSelect" />
 
-  <h2>Native + Dark Theme</h2>
-  <picker theme="dark" :native="true" @select="onSelect" />
+  <h2>Russian Locale</h2>
+  <picker 
+    :native="false" 
+    :display-recent="true" 
+    :hide-search="false"
+    locale="ru"
+    @select="onSelect" 
+  />
 
-  <h2>Additional groups</h2>
-  <picker :additional-groups="additionalGroups" @select="onSelect" />
+  <h2>Native + Dark Theme (Russian)</h2>
+  <picker theme="dark" :native="true" :hide-search="false" locale="ru" @select="onSelect" />
 
-  <h2>With input</h2>
+  <h2>With input (Russian)</h2>
   <picker
     :text="text"
     picker-type="input"
+    :hide-search="false"
+    locale="ru"
     @select="onSelect"
     @update:text="onChangeText"
   />
 
-  <h2>With textarea + Dark Theme</h2>
+  <h2>With textarea + Dark Theme (English)</h2>
   <picker
     theme="dark"
     :text="text"
     picker-type="textarea"
+    :hide-search="false"
+    locale="en"
     @select="onSelect"
     @update:text="onChangeText"
   />
 
-  <h2>With group ordering and additional groups</h2>
-  <picker
-    :additional-groups="additionalGroups"
-    :group-names="{
-      smileys_people: 'Smileys!',
-      my_custom_group: 'Custom Group',
-    }"
-    :group-order="['flags', 'my_custom_group', 'smileys_people']"
-    :group-icons="{ my_custom_group: custom }"
-    @select="onSelect"
+  <h2>Additional groups (Russian)</h2>
+  <picker 
+    :additional-groups="additionalGroups" 
+    :hide-search="false"
+    locale="ru"
+    @select="onSelect" 
+  />
+
+  <h2>German Locale (External JSON)</h2>
+  <picker 
+    :native="false" 
+    :display-recent="true" 
+    :hide-search="false"
+    locale="de"
+    @select="onSelect" 
   />
 </template>
 

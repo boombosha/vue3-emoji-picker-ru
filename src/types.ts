@@ -20,6 +20,18 @@ export type ColorTheme = 'dark' | 'light' | 'auto'
 
 export type GroupNames = Record<GroupKeys, string>
 
+export type Locale = 'en' | 'ru' | 'de' | 'fr'
+
+export interface LocaleConfig {
+  locale: Locale
+  groupNames: GroupNames
+  staticTexts: {
+    placeholder: string
+    skinTone: string
+    noResults: string
+  }
+}
+
 export interface Group {
   key: GroupKeys
   title: string

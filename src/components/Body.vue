@@ -8,7 +8,7 @@
             v-if="hasGroupNames"
             :class="isSticky ? `v3-sticky` : ``"
           >
-            {{ groupNames[key] }}
+            {{ groupNames[key] || key }}
           </h5>
           <div v-show="emojis[key]" class="v3-emojis">
             <button
@@ -32,7 +32,7 @@
           </div>
         </div>
       </template>
-      <span v-else class="v3-no-result"> No emoji has been found! </span>
+      <span v-else class="v3-no-result"> {{ noResultsText }} </span>
     </div>
   </div>
 </template>
@@ -89,20 +89,26 @@ export default defineComponent({
     const _this = getCurrentInstance()
     const hasGroupNames = computed(() => !state.options.hideGroupNames)
     const isSticky = computed(() => !state.options.disableStickyGroupNames)
-    const groupNames = toRaw(state.options.groupNames)
-    const orderedKeys = state.orderedGroupKeys
+    const orderedKeys = computed(() => state.orderedGroupKeys)
+    const noResultsText = computed(() => state.options.staticTexts.noResults || 'No emoji has been found!')
 
-    if (state.options.additionalGroups) {
-      Object.keys(state.options.additionalGroups).map((k) => {
-        if (state.options.groupNames[k]) {
-          // Custom name is defined use that one
-          groupNames[k] = state.options.groupNames[k]
-        } else {
-          // Name group name from snake case to capitalized wording, e.g. my_custom_group to My Custom Group
-          groupNames[k] = snakeToCapitalizedCase(k)
-        }
-      })
-    }
+    const groupNames = computed(() => {
+      const names = { ...state.options.groupNames }
+      
+      if (state.options.additionalGroups) {
+        Object.keys(state.options.additionalGroups).forEach((k) => {
+          if (state.options.groupNames[k]) {
+            // Custom name is defined use that one
+            names[k] = state.options.groupNames[k]
+          } else {
+            // Name group name from snake case to capitalized wording, e.g. my_custom_group to My Custom Group
+            names[k] = snakeToCapitalizedCase(k)
+          }
+        })
+      }
+      
+      return names
+    })
 
     const platform = isMac() ? 'is-mac' : ''
 
@@ -156,6 +162,7 @@ export default defineComponent({
       platform,
       groupNames,
       orderedKeys,
+      noResultsText,
     }
   },
 })

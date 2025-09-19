@@ -55,7 +55,7 @@ export default defineComponent({
 
     const hasSearch = computed(() => !state.options.hideSearch)
     const hasGroupIcons = computed(() => !state.options.hideGroupIcons)
-    const orderedKeys = JSON.parse(JSON.stringify(state.orderedGroupKeys))
+    const orderedKeys = computed(() => state.orderedGroupKeys)
     const placeholder = computed(
       () => state.options.staticTexts.placeholder || ''
     )
@@ -65,23 +65,31 @@ export default defineComponent({
       set: (value: string) => updateSearch(value),
     })
 
-    const groups: Group[] = [
-      ...state.groups,
+    const groups = computed(() => [
+      ...state.groups.map(group => ({
+        ...group,
+        title: state.options.groupNames[group.key] || group.title
+      })),
       ...Object.keys(state.options.additionalGroups).map((g) => ({
         key: g,
         title: state.options.groupNames[g]
           ? state.options.groupNames[g]
           : snakeToCapitalizedCase(g),
       })),
-    ] as Group[]
+    ] as Group[])
 
-    const orderedGroups: Group[] = []
-
-    orderedKeys.forEach((key: string) => {
-      const index = groups.findIndex((group) => group.key === key)
-      if (index === -1) return
-      orderedGroups.push(groups[index])
-      groups.splice(index, 1)
+    const orderedGroups = computed(() => {
+      const result: Group[] = []
+      const groupsList = groups.value
+      const keys = orderedKeys.value
+      
+      keys.forEach((key: string) => {
+        const index = groupsList.findIndex((group) => group.key === key)
+        if (index === -1) return
+        result.push(groupsList[index])
+      })
+      
+      return result
     })
 
     return {

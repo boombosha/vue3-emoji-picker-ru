@@ -1,0 +1,16 @@
+{
+  "smileys_people": [
+    {
+      "n": ["grinning face", "grinning", "grinsendes Gesicht", "grinsen"],
+      "u": "1f600"
+    },
+    {
+      "n": ["grinning face with smiling eyes", "grin", "grinsendes Gesicht mit lächelnden Augen", "breites Grinsen"],
+      "u": "1f601"
+    },
+    {
+      "n": ["face with tears of joy", "joy", "Gesicht mit Freudentränen", "Lachen bis die Tränen kommen"],
+      "u": "1f602"
+    }
+  ]
+}

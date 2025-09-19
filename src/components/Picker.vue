@@ -19,7 +19,9 @@ import { defineComponent, provide, ref, PropType, toRaw } from 'vue'
 import { COLOR_THEMES, GROUP_NAMES, STATIC_TEXTS } from '../constant'
 import Store from '../store'
 import PickerRoot from './Root.vue'
-import { ColorTheme, EmojiExt } from '../types'
+import { ColorTheme, EmojiExt, Locale } from '../types'
+import { getFullLocaleConfig } from '../locales/loader'
+import { detectUserLocale } from '../locales'
 
 export default defineComponent({
   name: 'Picker',
@@ -99,6 +101,10 @@ export default defineComponent({
       type: String as PropType<ColorTheme>,
       default: 'light',
     },
+    locale: {
+      type: String as PropType<Locale>,
+      default: () => detectUserLocale(),
+    },
   },
   emits: {
     'update:text': (text: string) => true,
@@ -122,26 +128,39 @@ export default defineComponent({
     const store = Store()
 
     /**
-     * Initializing initial props
+     * Initialize picker with options
      */
-    store.updateOptions({
-      native: props.native,
-      hideSearch: props.hideSearch,
-      hideGroupIcons: props.hideGroupIcons,
-      hideGroupNames: props.hideGroupNames,
-      staticTexts: { ...STATIC_TEXTS, ...props.staticTexts },
-      disableStickyGroupNames: props.disableStickyGroupNames,
-      disabledGroups: props.disabledGroups,
-      groupNames: { ...GROUP_NAMES, ...props.groupNames },
-      disableSkinTones: props.disableSkinTones,
-      displayRecent: props.displayRecent,
-      additionalGroups: props.additionalGroups,
-      mode: props.mode,
-      offset: props.offset,
-      groupOrder: props.groupOrder,
-      groupIcons: props.groupIcons,
-      colorTheme: COLOR_THEMES.includes(props.theme) ? props.theme : 'light',
-    })
+    const initializePicker = async () => {
+      // Get locale configuration (async)
+      const locale = props.locale || detectUserLocale()
+      const localeConfig = await getFullLocaleConfig(locale)
+
+      /**
+       * Initializing initial props
+       */
+      await store.updateOptions({
+        native: props.native,
+        hideSearch: props.hideSearch,
+        hideGroupIcons: props.hideGroupIcons,
+        hideGroupNames: props.hideGroupNames,
+        staticTexts: { ...localeConfig.staticTexts, ...props.staticTexts },
+        disableStickyGroupNames: props.disableStickyGroupNames,
+        disabledGroups: props.disabledGroups,
+        groupNames: { ...localeConfig.groupNames, ...props.groupNames },
+        disableSkinTones: props.disableSkinTones,
+        displayRecent: props.displayRecent,
+        additionalGroups: props.additionalGroups,
+        mode: props.mode,
+        offset: props.offset,
+        groupOrder: props.groupOrder,
+        groupIcons: props.groupIcons,
+        colorTheme: COLOR_THEMES.includes(props.theme) ? props.theme : 'light',
+        locale: locale,
+      })
+    }
+
+    // Initialize picker
+    initializePicker()
 
     /**
      * (provide) make available for entire app.

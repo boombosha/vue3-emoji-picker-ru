@@ -1,0 +1,19 @@
+{
+  "locale": "de",
+  "groupNames": {
+    "recent": "Kürzlich verwendet",
+    "smileys_people": "Smileys & Personen",
+    "animals_nature": "Tiere & Natur",
+    "food_drink": "Essen & Trinken",
+    "activities": "Aktivitäten",
+    "travel_places": "Reisen & Orte",
+    "objects": "Objekte",
+    "symbols": "Symbole",
+    "flags": "Flaggen"
+  },
+  "staticTexts": {
+    "placeholder": "Emoji suchen",
+    "skinTone": "Hautton",
+    "noResults": "Kein Emoji gefunden!"
+  }
+}

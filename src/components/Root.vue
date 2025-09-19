@@ -166,8 +166,18 @@ export default defineComponent({
           offset = 6
         }
 
+        // Временно подавляем предупреждения Popper.js
+        const originalWarn = console.warn
+        console.warn = (...args) => {
+          if (args[0] && args[0].includes && args[0].includes('CSS "margin" styles cannot be used')) {
+            return // Подавляем это конкретное предупреждение
+          }
+          originalWarn.apply(console, args)
+        }
+
         createPopper(button.value, picker.value, {
           placement: 'bottom-end',
+          strategy: 'fixed',
           modifiers: [
             {
               name: 'offset',
@@ -175,8 +185,30 @@ export default defineComponent({
                 offset: [0, offset],
               },
             },
+            {
+              name: 'preventOverflow',
+              options: {
+                padding: 8,
+              },
+            },
+            {
+              name: 'flip',
+              options: {
+                padding: 8,
+              },
+            },
+            {
+              name: 'computeStyles',
+              options: {
+                gpuAcceleration: false,
+                adaptive: false,
+              },
+            },
           ],
         })
+
+        // Восстанавливаем console.warn
+        console.warn = originalWarn
 
         document.body.addEventListener('click', clickListener)
       }

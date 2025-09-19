@@ -1,0 +1,19 @@
+{
+  "locale": "fr",
+  "groupNames": {
+    "recent": "Récemment utilisés",
+    "smileys_people": "Smileys & Personnes",
+    "animals_nature": "Animaux & Nature",
+    "food_drink": "Nourriture & Boissons",
+    "activities": "Activités",
+    "travel_places": "Voyages & Lieux",
+    "objects": "Objets",
+    "symbols": "Symboles",
+    "flags": "Drapeaux"
+  },
+  "staticTexts": {
+    "placeholder": "Rechercher un emoji",
+    "skinTone": "Teint de peau",
+    "noResults": "Aucun emoji trouvé !"
+  }
+}
