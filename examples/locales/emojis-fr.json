@@ -1,25 +1,50 @@
 {
   "smileys_people": [
     {
-      "n": ["grinning face", "grinning", "visage souriant", "sourire"],
+      "n": [
+        "grinning face",
+        "grinning",
+        "visage souriant",
+        "sourire"
+      ],
       "u": "1f600"
     },
     {
-      "n": ["grinning face with smiling eyes", "grin", "visage souriant avec des yeux souriants", "grand sourire"],
+      "n": [
+        "grinning face with smiling eyes",
+        "grin",
+        "visage souriant avec des yeux souriants",
+        "sourire"
+      ],
       "u": "1f601"
     },
     {
-      "n": ["face with tears of joy", "joy", "visage avec des larmes de joie", "rire aux larmes"],
+      "n": [
+        "face with tears of joy",
+        "joy",
+        "visage avec des larmes de joie",
+        "joie"
+      ],
       "u": "1f602"
     }
   ],
   "animals_nature": [
     {
-      "n": ["dog face", "dog", "tête de chien", "chien"],
+      "n": [
+        "dog face",
+        "dog",
+        "tête de chien",
+        "chien"
+      ],
       "u": "1f436"
     },
     {
-      "n": ["cat face", "cat", "tête de chat", "chat"],
+      "n": [
+        "cat face",
+        "cat",
+        "tête de chat",
+        "chat"
+      ],
       "u": "1f431"
     }
   ]

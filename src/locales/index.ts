@@ -8,7 +8,7 @@ export const locales: Partial<Record<Locale, LocaleConfig>> = {
 }
 
 export function getLocaleConfig(locale: Locale): LocaleConfig {
-  return locales[locale] || locales.en
+  return locales[locale] || locales.en!
 }
 
 export function getAvailableLocales(): Locale[] {
@@ -17,21 +17,25 @@ export function getAvailableLocales(): Locale[] {
 
 export function detectUserLocale(): Locale {
   if (typeof navigator === 'undefined') return 'en'
-  
+
   const browserLocale = navigator.language.toLowerCase()
-  
+
   if (browserLocale.startsWith('ru')) return 'ru'
   if (browserLocale.startsWith('en')) return 'en'
-  
+
   return 'en' // fallback to English
 }
 
 // Re-export loader functions
-export { 
-  getFullLocaleConfig, 
-  getLocalizedEmojis, 
-  loadLocalizedEmojis, 
-  loadLocaleConfig 
+export {
+  getFullLocaleConfig,
+  getLocalizedEmojis,
+  loadLocalizedEmojis,
+  loadLocaleConfig,
+  loadCustomLocaleConfig,
+  loadCustomLocalizedEmojis,
+  getFullLocaleConfigWithCustom,
+  getLocalizedEmojisWithCustom,
 } from './loader'
 
 export { enLocale, ruLocale }

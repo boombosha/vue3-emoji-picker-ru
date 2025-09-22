@@ -1,18 +1,30 @@
 <template>
   <h2>Default (English)</h2>
-  <picker :native="false" :display-recent="true" :hide-search="false" locale="en" @select="onSelect" />
+  <picker
+    :native="false"
+    :display-recent="true"
+    :hide-search="false"
+    locale="en"
+    @select="onSelect"
+  />
 
   <h2>Russian Locale</h2>
-  <picker 
-    :native="false" 
-    :display-recent="true" 
+  <picker
+    :native="false"
+    :display-recent="true"
     :hide-search="false"
     locale="ru"
-    @select="onSelect" 
+    @select="onSelect"
   />
 
   <h2>Native + Dark Theme (Russian)</h2>
-  <picker theme="dark" :native="true" :hide-search="false" locale="ru" @select="onSelect" />
+  <picker
+    theme="dark"
+    :native="true"
+    :hide-search="false"
+    locale="ru"
+    @select="onSelect"
+  />
 
   <h2>With input (Russian)</h2>
   <picker
@@ -36,20 +48,40 @@
   />
 
   <h2>Additional groups (Russian)</h2>
-  <picker 
-    :additional-groups="additionalGroups" 
+  <picker
+    :additional-groups="additionalGroups"
     :hide-search="false"
     locale="ru"
-    @select="onSelect" 
+    @select="onSelect"
   />
 
   <h2>German Locale (External JSON)</h2>
-  <picker 
-    :native="false" 
-    :display-recent="true" 
+  <picker
+    :native="false"
+    :display-recent="true"
     :hide-search="false"
     locale="de"
-    @select="onSelect" 
+    @select="onSelect"
+  />
+
+  <h2>Custom Locale (Custom Paths)</h2>
+  <picker
+    :native="false"
+    :display-recent="true"
+    :hide-search="false"
+    locale="custom"
+    :custom-locale="customLocaleOptions"
+    @select="onSelect"
+  />
+
+  <h2>French Locale (Custom Paths)</h2>
+  <picker
+    :native="false"
+    :display-recent="true"
+    :hide-search="false"
+    locale="fr"
+    :custom-locale="frenchLocaleOptions"
+    @select="onSelect"
   />
 </template>
 
@@ -63,6 +95,7 @@ import { defineComponent, ref } from 'vue'
  * Internal dependencies
  */
 import Picker from './components/Picker.vue'
+import { CustomLocaleOptions } from './types'
 
 /**
  * SVGs
@@ -97,6 +130,20 @@ export default defineComponent({
       ],
     }
 
+    // Пример кастомной локализации с указанием путей
+    const customLocaleOptions: CustomLocaleOptions = {
+      locale: 'custom',
+      configPath: '/examples/locales/config-fr.json',
+      emojisPath: '/examples/locales/emojis-fr.json',
+    }
+
+    // Пример французской локализации с кастомными путями
+    const frenchLocaleOptions: CustomLocaleOptions = {
+      locale: 'fr',
+      configPath: '/examples/locales/config-fr.json',
+      emojisPath: '/examples/locales/emojis-fr.json',
+    }
+
     /**
      * Return vars
      */
@@ -106,6 +153,8 @@ export default defineComponent({
       onSelect,
       additionalGroups,
       custom,
+      customLocaleOptions,
+      frenchLocaleOptions,
     }
   },
 })

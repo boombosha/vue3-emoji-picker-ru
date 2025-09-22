@@ -5,7 +5,12 @@ import emojis from '../data/emojis-localized.json'
 import _groups from '../data/groups.json'
 import initialize, { DB_KEY, DB_VERSION, STORE_KEY } from './db'
 import { openDB } from 'idb'
-import { getFullLocaleConfig, getLocalizedEmojis } from '../locales/loader'
+import {
+  getFullLocaleConfig,
+  getLocalizedEmojis,
+  getFullLocaleConfigWithCustom,
+  getLocalizedEmojisWithCustom,
+} from '../locales/loader'
 
 // init db
 initialize()
@@ -141,7 +146,13 @@ export default function Store(): Store {
     // If locale is provided, load locale-specific settings
     if (options.locale) {
       try {
-        const localeConfig = await getFullLocaleConfig(options.locale as Locale)
+        const localeConfig = options.customLocale
+          ? await getFullLocaleConfigWithCustom(
+              options.locale as Locale,
+              options.customLocale
+            )
+          : await getFullLocaleConfig(options.locale as Locale)
+
         options = {
           ...options,
           staticTexts: { ...localeConfig.staticTexts, ...options.staticTexts },

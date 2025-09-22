@@ -19,8 +19,11 @@ import { defineComponent, provide, ref, PropType, toRaw } from 'vue'
 import { COLOR_THEMES, GROUP_NAMES, STATIC_TEXTS } from '../constant'
 import Store from '../store'
 import PickerRoot from './Root.vue'
-import { ColorTheme, EmojiExt, Locale } from '../types'
-import { getFullLocaleConfig } from '../locales/loader'
+import { ColorTheme, EmojiExt, Locale, CustomLocaleOptions } from '../types'
+import {
+  getFullLocaleConfig,
+  getFullLocaleConfigWithCustom,
+} from '../locales/loader'
 import { detectUserLocale } from '../locales'
 
 export default defineComponent({
@@ -105,6 +108,10 @@ export default defineComponent({
       type: String as PropType<Locale>,
       default: () => detectUserLocale(),
     },
+    customLocale: {
+      type: Object as PropType<CustomLocaleOptions>,
+      default: () => undefined,
+    },
   },
   emits: {
     'update:text': (text: string) => true,
@@ -133,7 +140,9 @@ export default defineComponent({
     const initializePicker = async () => {
       // Get locale configuration (async)
       const locale = props.locale || detectUserLocale()
-      const localeConfig = await getFullLocaleConfig(locale)
+      const localeConfig = props.customLocale
+        ? await getFullLocaleConfigWithCustom(locale, props.customLocale)
+        : await getFullLocaleConfig(locale)
 
       /**
        * Initializing initial props

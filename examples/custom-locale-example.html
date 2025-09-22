@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кастомная локализация - Vue3 Emoji Picker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .example {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        h2 {
+            color: #333;
+            margin-top: 0;
+        }
+        .code {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Примеры кастомной локализации</h1>
+    
+    <div class="example">
+        <h2>1. Стандартная русская локализация</h2>
+        <div id="app1"></div>
+        <div class="code">
+            &lt;picker locale="ru" /&gt;
+        </div>
+    </div>
+
+    <div class="example">
+        <h2>2. Кастомная локализация с указанием путей</h2>
+        <div id="app2"></div>
+        <div class="code">
+            &lt;picker 
+              locale="custom"
+              :custom-locale="{
+                locale: 'custom',
+                configPath: '/examples/locales/config-fr.json',
+                emojisPath: '/examples/locales/emojis-fr.json'
+              }"
+            /&gt;
+        </div>
+    </div>
+
+    <div class="example">
+        <h2>3. Французская локализация с кастомными путями</h2>
+        <div id="app3"></div>
+        <div class="code">
+            &lt;picker 
+              locale="fr"
+              :custom-locale="{
+                locale: 'fr',
+                configPath: '/examples/locales/config-fr.json',
+                emojisPath: '/examples/locales/emojis-fr.json'
+              }"
+            /&gt;
+        </div>
+    </div>
+
+    <div class="example">
+        <h2>4. Локализация с CDN (пример)</h2>
+        <div id="app4"></div>
+        <div class="code">
+            &lt;picker 
+              locale="es"
+              :custom-locale="{
+                locale: 'es',
+                configPath: 'https://cdn.example.com/locales/es/config.json',
+                emojisPath: 'https://cdn.example.com/locales/es/emojis.json'
+              }"
+            /&gt;
+        </div>
+    </div>
+
+    <script type="module">
+        import { createApp } from 'vue'
+        import Picker from '../src/components/Picker.vue'
+
+        // Пример 1: Стандартная русская локализация
+        createApp({
+            components: { Picker },
+            template: `
+                <picker 
+                    :native="false" 
+                    :display-recent="true" 
+                    :hide-search="false"
+                    locale="ru"
+                    @select="onSelect" 
+                />
+            `,
+            methods: {
+                onSelect(emoji) {
+                    console.log('Выбран смайл:', emoji)
+                }
+            }
+        }).mount('#app1')
+
+        // Пример 2: Кастомная локализация
+        createApp({
+            components: { Picker },
+            data() {
+                return {
+                    customLocaleOptions: {
+                        locale: 'custom',
+                        configPath: '/examples/locales/config-fr.json',
+                        emojisPath: '/examples/locales/emojis-fr.json'
+                    }
+                }
+            },
+            template: `
+                <picker 
+                    :native="false" 
+                    :display-recent="true" 
+                    :hide-search="false"
+                    locale="custom"
+                    :custom-locale="customLocaleOptions"
+                    @select="onSelect" 
+                />
+            `,
+            methods: {
+                onSelect(emoji) {
+                    console.log('Выбран смайл (кастомная локализация):', emoji)
+                }
+            }
+        }).mount('#app2')
+
+        // Пример 3: Французская локализация с кастомными путями
+        createApp({
+            components: { Picker },
+            data() {
+                return {
+                    frenchLocaleOptions: {
+                        locale: 'fr',
+                        configPath: '/examples/locales/config-fr.json',
+                        emojisPath: '/examples/locales/emojis-fr.json'
+                    }
+                }
+            },
+            template: `
+                <picker 
+                    :native="false" 
+                    :display-recent="true" 
+                    :hide-search="false"
+                    locale="fr"
+                    :custom-locale="frenchLocaleOptions"
+                    @select="onSelect" 
+                />
+            `,
+            methods: {
+                onSelect(emoji) {
+                    console.log('Выбран смайл (французская локализация):', emoji)
+                }
+            }
+        }).mount('#app3')
+
+        // Пример 4: Локализация с CDN (демонстрация)
+        createApp({
+            components: { Picker },
+            data() {
+                return {
+                    cdnLocaleOptions: {
+                        locale: 'es',
+                        configPath: 'https://cdn.example.com/locales/es/config.json',
+                        emojisPath: 'https://cdn.example.com/locales/es/emojis.json'
+                    }
+                }
+            },
+            template: `
+                <picker 
+                    :native="false" 
+                    :display-recent="true" 
+                    :hide-search="false"
+                    locale="es"
+                    :custom-locale="cdnLocaleOptions"
+                    @select="onSelect" 
+                />
+            `,
+            methods: {
+                onSelect(emoji) {
+                    console.log('Выбран смайл (CDN локализация):', emoji)
+                }
+            }
+        }).mount('#app4')
+    </script>
+</body>
+</html>

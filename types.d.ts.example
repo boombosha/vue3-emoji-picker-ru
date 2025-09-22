@@ -1,0 +1,66 @@
+// Example TypeScript declarations file for vue3-emoji-picker-ru
+// Пример файла деклараций TypeScript для vue3-emoji-picker-ru
+
+declare module 'vue3-emoji-picker-ru' {
+  import { DefineComponent } from 'vue'
+
+  export interface EmojiExt {
+    i: string        // Emoji character / Символ эмодзи
+    n: string[]      // Names array / Массив названий
+    r: string        // Unicode with skin tone / Unicode с тоном кожи
+    t: string        // Skin tone / Тон кожи
+    u: string        // Unicode without tone / Unicode без тона
+  }
+
+  export interface CustomLocaleOptions {
+    locale: string           // Language code / Код языка
+    configPath?: string      // Path to config file / Путь к файлу конфигурации
+    emojisPath?: string      // Path to emojis file / Путь к файлу эмодзи
+  }
+
+  export interface PickerProps {
+    // Basic props / Основные пропсы
+    native?: boolean
+    hideSearch?: boolean
+    hideGroupIcons?: boolean
+    hideGroupNames?: boolean
+    disableStickyGroupNames?: boolean
+    disableSkinTones?: boolean
+    disabledGroups?: string[]
+    
+    // Customization / Настройка
+    groupNames?: Record<string, string>
+    staticTexts?: {
+      placeholder?: string
+      skinTone?: string
+      noResults?: string
+    }
+    pickerType?: string
+    mode?: 'prepend' | 'insert' | 'append'
+    offset?: number
+    additionalGroups?: Record<string, any[]>
+    groupOrder?: string[]
+    groupIcons?: Record<string, any>
+    displayRecent?: boolean
+    theme?: 'light' | 'dark' | 'auto'
+    
+    // Localization / Локализация
+    locale?: string
+    customLocale?: CustomLocaleOptions
+    text?: string
+  }
+
+  export interface PickerEmits {
+    select: (emoji: EmojiExt) => void
+    'update:text': (text: string) => void
+  }
+
+  const EmojiPicker: DefineComponent<PickerProps, {}, {}, {}, {}, {}, {}, PickerEmits>
+  
+  export default EmojiPicker
+}
+
+declare module 'vue3-emoji-picker-ru/css' {
+  const content: string
+  export default content
+}

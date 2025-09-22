@@ -20,7 +20,7 @@ export type ColorTheme = 'dark' | 'light' | 'auto'
 
 export type GroupNames = Record<GroupKeys, string>
 
-export type Locale = 'en' | 'ru' | 'de' | 'fr'
+export type Locale = 'en' | 'ru' | 'de' | 'fr' | string
 
 export interface LocaleConfig {
   locale: Locale
@@ -30,6 +30,12 @@ export interface LocaleConfig {
     skinTone: string
     noResults: string
   }
+}
+
+export interface CustomLocaleOptions {
+  locale: string
+  configPath?: string
+  emojisPath?: string
 }
 
 export interface Group {
