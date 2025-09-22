@@ -48,10 +48,10 @@ export function filterEmojis(
     const _emojis: Emoji[] = []
     emojis[key as GroupKeys].forEach((emoji) => {
       // Search in all names (including localized ones)
-      const hasMatch = emoji[EMOJI_NAME_KEY].some(name => 
+      const hasMatch = emoji[EMOJI_NAME_KEY].some((name) =>
         name.toLowerCase().includes(keyword.toLowerCase())
       )
-      
+
       if (hasMatch) {
         let result = emoji[EMOJI_UNICODE_KEY]
 

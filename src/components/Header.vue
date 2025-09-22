@@ -65,30 +65,33 @@ export default defineComponent({
       set: (value: string) => updateSearch(value),
     })
 
-    const groups = computed(() => [
-      ...state.groups.map(group => ({
-        ...group,
-        title: state.options.groupNames[group.key] || group.title
-      })),
-      ...Object.keys(state.options.additionalGroups).map((g) => ({
-        key: g,
-        title: state.options.groupNames[g]
-          ? state.options.groupNames[g]
-          : snakeToCapitalizedCase(g),
-      })),
-    ] as Group[])
+    const groups = computed(
+      () =>
+        [
+          ...state.groups.map((group) => ({
+            ...group,
+            title: state.options.groupNames[group.key] || group.title,
+          })),
+          ...Object.keys(state.options.additionalGroups).map((g) => ({
+            key: g,
+            title: state.options.groupNames[g]
+              ? state.options.groupNames[g]
+              : snakeToCapitalizedCase(g),
+          })),
+        ] as Group[]
+    )
 
     const orderedGroups = computed(() => {
       const result: Group[] = []
       const groupsList = groups.value
       const keys = orderedKeys.value
-      
+
       keys.forEach((key: string) => {
         const index = groupsList.findIndex((group) => group.key === key)
         if (index === -1) return
         result.push(groupsList[index])
       })
-      
+
       return result
     })
 

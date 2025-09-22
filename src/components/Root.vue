@@ -169,7 +169,11 @@ export default defineComponent({
         // Временно подавляем предупреждения Popper.js
         const originalWarn = console.warn
         console.warn = (...args) => {
-          if (args[0] && args[0].includes && args[0].includes('CSS "margin" styles cannot be used')) {
+          if (
+            args[0] &&
+            args[0].includes &&
+            args[0].includes('CSS "margin" styles cannot be used')
+          ) {
             return // Подавляем это конкретное предупреждение
           }
           originalWarn.apply(console, args)

@@ -54,7 +54,7 @@ import {
 /**
  * Internal dependencies
  */
-import {EmojiRecord, Emoji, Store, EmojiExt} from '../types'
+import { EmojiRecord, Emoji, Store, EmojiExt } from '../types'
 
 import {
   EMOJI_REMOTE_SRC,
@@ -90,11 +90,13 @@ export default defineComponent({
     const hasGroupNames = computed(() => !state.options.hideGroupNames)
     const isSticky = computed(() => !state.options.disableStickyGroupNames)
     const orderedKeys = computed(() => state.orderedGroupKeys)
-    const noResultsText = computed(() => state.options.staticTexts.noResults || 'No emoji has been found!')
+    const noResultsText = computed(
+      () => state.options.staticTexts.noResults || 'No emoji has been found!'
+    )
 
     const groupNames = computed(() => {
       const names = { ...state.options.groupNames }
-      
+
       if (state.options.additionalGroups) {
         Object.keys(state.options.additionalGroups).forEach((k) => {
           if (state.options.groupNames[k]) {
@@ -106,7 +108,7 @@ export default defineComponent({
           }
         })
       }
-      
+
       return names
     })
 

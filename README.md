@@ -270,10 +270,31 @@ To see any existing emoji's see `src/data/emojis.json` / Чтобы увидет
 
 ### Custom Localization / Кастомная локализация
 
-You can specify custom paths for localization files:
+You can specify custom paths for localization files: / Вы можете указать кастомные пути для файлов локализации:
 
 ```vue
+<template>
+  <picker
+    locale="my-lang"
+    :custom-locale="customLocaleOptions"
+    @select="onSelect"
+  />
+</template>
 
+<script setup lang="ts">
+import { ref } from 'vue'
+import type { CustomLocaleOptions } from 'vue3-emoji-picker-ru'
+
+const customLocaleOptions: CustomLocaleOptions = {
+  locale: 'my-lang',
+  configPath: '/my-locales/config.json', // Path to config file / Путь к файлу конфигурации
+  emojisPath: '/my-locales/emojis.json', // Path to emojis file / Путь к файлу эмодзи
+}
+
+function onSelect(emoji: any) {
+  console.log('Selected emoji:', emoji)
+}
+</script>
 ```
 
 ### Localization Files Structure / Структура файлов локализации
