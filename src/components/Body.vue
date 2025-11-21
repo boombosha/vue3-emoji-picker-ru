@@ -113,6 +113,7 @@ export default defineComponent({
     })
 
     const platform = isMac() ? 'is-mac' : ''
+    const native = computed(() => state.options.native)
 
     function handleMouseEnter(emoji: Emoji) {
       updateEmoji(emoji)
@@ -155,7 +156,7 @@ export default defineComponent({
       handleClick,
       handleError,
       handleMouseEnter,
-      native: state.options.native,
+      native,
       unicodeToEmoji,
       EMOJI_RESULT_KEY,
       EMOJI_NAME_KEY,

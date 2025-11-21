@@ -170,6 +170,15 @@ export default function Store(): Store {
   }
 
   /**
+   * Synchronously update a single option (for immediate updates before first render)
+   * @param key - option key
+   * @param value - option value
+   */
+  const updateOptionSync = (key: string, value: any) => {
+    state.options = Object.assign({}, state.options, { [key]: value })
+  }
+
+  /**
    * Add emoji to idb.
    * @return void;
    */
@@ -210,5 +219,6 @@ export default function Store(): Store {
     updateSkinTone,
     updateOptions,
     updateSelect,
+    updateOptionSync,
   }
 }

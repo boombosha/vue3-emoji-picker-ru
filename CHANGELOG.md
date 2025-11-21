@@ -1,3 +1,9 @@
+v1.1.9 (2024)
+
+- Fix: Native prop not working - emojis were always displayed as PNG images instead of native emojis when `:native="true"` was set
+- Fix: Made native prop reactive in Body and Footer components using computed properties
+- Add: Synchronous updateOptionSync method in store for immediate option updates
+
 v1.1.7 (11/11/22)
 
 - Add: Dark mode support

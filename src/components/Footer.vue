@@ -66,6 +66,7 @@ export default defineComponent({
     )
     const hasSkinTones = computed(() => !state.options.disableSkinTones)
     const platform = isMac() ? 'is-mac' : ''
+    const native = computed(() => state.options.native)
 
     const emoji = computed<any>(() => {
       return {
@@ -106,7 +107,7 @@ export default defineComponent({
       EMOJI_NAME_KEY,
       skinToneText,
       hasSkinTones,
-      native: state.options.native,
+      native,
       unicodeToEmoji,
       platform,
       hasError,

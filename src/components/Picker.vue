@@ -11,7 +11,7 @@
 /**
  * External dependencies
  */
-import { defineComponent, provide, ref, PropType, toRaw } from 'vue'
+import { defineComponent, provide, ref, PropType, toRaw, watch } from 'vue'
 
 /**
  * Internal dependencies
@@ -134,6 +134,10 @@ export default defineComponent({
      */
     const store = Store()
 
+    // Set native prop immediately (synchronously) to avoid initial render with wrong value
+    // We need to set it before provide() so components get correct value on first render
+    store.updateOptionSync('native', props.native)
+
     /**
      * Initialize picker with options
      */
@@ -170,6 +174,14 @@ export default defineComponent({
 
     // Initialize picker
     initializePicker()
+
+    // Watch for changes in native prop and update store
+    watch(
+      () => props.native,
+      (newValue) => {
+        store.updateOptionSync('native', newValue)
+      }
+    )
 
     /**
      * (provide) make available for entire app.

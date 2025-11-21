@@ -85,4 +85,5 @@ export interface Store {
   updateActiveGroup: (v: string) => void
   updateSkinTone: (v: string) => void
   updateOptions: (v: Record<string, any>) => void
+  updateOptionSync: (key: string, value: any) => void
 }
