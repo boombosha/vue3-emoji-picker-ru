@@ -63,7 +63,7 @@ export function filterEmojis(
           const v_index =
             emoji[EMOJI_VARIATIONS_KEY]?.findIndex((v) =>
               v.includes(skinTone)
-            ) || -1
+            ) ?? -1
           if (v_index !== -1 && emoji[EMOJI_VARIATIONS_KEY]) {
             // @ts-ignore
             result = emoji[EMOJI_VARIATIONS_KEY][v_index]

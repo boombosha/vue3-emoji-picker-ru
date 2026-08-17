@@ -31,6 +31,16 @@ describe('helpers', () => {
     })
   })
 
+  it('filterEmojis: applies light skin tone (first variation, index 0)', () => {
+    const result = filterEmojis(emojis, 'thumbs up sign', '1f3fb', [])
+    expect(result.smileys_people[0].r).toBe('1f44d-1f3fb')
+  })
+
+  it('filterEmojis: applies medium-light skin tone', () => {
+    const result = filterEmojis(emojis, 'thumbs up sign', '1f3fc', [])
+    expect(result.smileys_people[0].r).toBe('1f44d-1f3fc')
+  })
+
   // Test snakeToCapitalizedCase
   it('snakeToCapitalizedCase: Test valid input', () => {
     expect(snakeToCapitalizedCase('hello_world_a')).toBe('Hello World A')

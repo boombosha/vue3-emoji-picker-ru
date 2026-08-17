@@ -1,3 +1,7 @@
+v1.1.10 (17/08/26)
+
+- Fix: Light skin tone (1f3fb) was ignored because findIndex 0 was treated as missing via `|| -1`
+
 v1.1.9 (2024)
 
 - Fix: Native prop not working - emojis were always displayed as PNG images instead of native emojis when `:native="true"` was set
