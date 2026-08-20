@@ -3,6 +3,16 @@ import { ColorTheme, Emoji, GroupNames } from './types'
 export const EMOJI_REMOTE_SRC =
   'https://cdn.jsdelivr.net/npm/emoji-datasource-apple@6.0.1/img/apple/64'
 
+/**
+ * Standalone gender/medical signs have no Apple PNG on the CDN.
+ * They only exist as ZWJ components (e.g. 👩‍⚕️) and should render as glyphs.
+ */
+export const APPLE_MISSING_STANDALONE = new Set([
+  '2640-fe0f',
+  '2642-fe0f',
+  '2695-fe0f',
+])
+
 // ./data/groups.json
 export const GROUP_NAMES: GroupNames = {
   recent: 'Recently used',

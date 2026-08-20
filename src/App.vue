@@ -1,4 +1,30 @@
 <template>
+  <h2>CDN switch (Apple / Google)</h2>
+  <div class="cdn-switch">
+    <button
+      type="button"
+      :class="{ active: emojiSrc === appleSrc }"
+      @click="emojiSrc = appleSrc"
+    >
+      Apple
+    </button>
+    <button
+      type="button"
+      :class="{ active: emojiSrc === googleSrc }"
+      @click="emojiSrc = googleSrc"
+    >
+      Google
+    </button>
+  </div>
+  <picker
+    :native="false"
+    :display-recent="true"
+    :hide-search="false"
+    :emoji-src="emojiSrc"
+    locale="ru"
+    @select="onSelect"
+  />
+
   <h2>Default (English)</h2>
   <picker
     :native="false"
@@ -109,6 +135,11 @@ export default defineComponent({
   },
   setup() {
     const text = ref('input')
+    const appleSrc =
+      'https://cdn.jsdelivr.net/npm/emoji-datasource-apple@6.0.1/img/apple/64'
+    const googleSrc =
+      'https://cdn.jsdelivr.net/npm/emoji-datasource-google@6.0.1/img/google/64'
+    const emojiSrc = ref(appleSrc)
 
     /**
      * Handle text change
@@ -155,6 +186,9 @@ export default defineComponent({
       custom,
       customLocaleOptions,
       frenchLocaleOptions,
+      appleSrc,
+      googleSrc,
+      emojiSrc,
     }
   },
 })
@@ -172,6 +206,25 @@ h2 {
   color: #2c3e50;
   margin: 60px auto 0;
   max-width: 560px;
+}
+.cdn-switch {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+
+  button {
+    cursor: pointer;
+    border: 1px solid #2c3e50;
+    background: #fff;
+    padding: 6px 14px;
+    border-radius: 4px;
+
+    &.active {
+      background: #2c3e50;
+      color: #fff;
+    }
+  }
 }
 .input-wrap {
   input {

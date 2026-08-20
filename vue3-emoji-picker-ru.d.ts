@@ -17,6 +17,7 @@ declare module 'vue3-emoji-picker-ru' {
 
   export interface PickerProps {
     native?: boolean
+    emojiSrc?: string
     hideSearch?: boolean
     hideGroupIcons?: boolean
     hideGroupNames?: boolean

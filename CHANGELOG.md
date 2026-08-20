@@ -1,3 +1,9 @@
+v1.1.11 (20/08/26)
+
+- Add: `emoji-src` prop to switch emoji PNG CDN at runtime (Apple, Google, or custom)
+- Fix: Render ♀ ♂ ⚕ as glyphs when Apple images are missing (404)
+- Update: TypeScript 5.4 and CSS module types for `vue3-emoji-picker-ru/css`
+
 v1.1.10 (17/08/26)
 
 - Fix: Light skin tone (1f3fb) was ignored because findIndex 0 was treated as missing via `|| -1`

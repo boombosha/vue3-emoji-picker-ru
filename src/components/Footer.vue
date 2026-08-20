@@ -2,7 +2,10 @@
   <div class="v3-footer" @mouseleave="updateSkinToneState(false)">
     <div class="v3-foot-left">
       <span :class="platform" class="v3-icon">
-        <span v-if="native || hasError">{{ unicodeToEmoji(emoji.r) }}</span>
+        <span
+          v-if="native || hasError || isNativeOnlyEmoji(emoji.r, emojiSrc)"
+          >{{ unicodeToEmoji(emoji.r) }}</span
+        >
         <img
           v-else
           :alt="unicodeToEmoji(emoji.r)"
@@ -45,14 +48,14 @@ import { computed, defineComponent, inject, ref, watch } from 'vue'
 /**
  * Internal dependencies
  */
-import {
-  EMOJI_REMOTE_SRC,
-  SKIN_TONES,
-  EMOJI_RESULT_KEY,
-  EMOJI_NAME_KEY,
-} from '../constant'
+import { SKIN_TONES, EMOJI_RESULT_KEY, EMOJI_NAME_KEY } from '../constant'
 import { Store } from '../types'
-import { unicodeToEmoji, isMac } from '../helpers'
+import {
+  unicodeToEmoji,
+  isMac,
+  isNativeOnlyEmoji,
+  normalizeEmojiSrc,
+} from '../helpers'
 
 export default defineComponent({
   name: 'Header',
@@ -67,11 +70,12 @@ export default defineComponent({
     const hasSkinTones = computed(() => !state.options.disableSkinTones)
     const platform = isMac() ? 'is-mac' : ''
     const native = computed(() => state.options.native)
+    const emojiSrc = computed(() => normalizeEmojiSrc(state.options.emojiSrc))
 
     const emoji = computed<any>(() => {
       return {
         ...state.emoji,
-        src: EMOJI_REMOTE_SRC + '/' + state.emoji[EMOJI_RESULT_KEY] + '.png',
+        src: emojiSrc.value + '/' + state.emoji[EMOJI_RESULT_KEY] + '.png',
       }
     })
 
@@ -95,6 +99,10 @@ export default defineComponent({
       }
     )
 
+    watch(emojiSrc, () => {
+      hasError.value = false
+    })
+
     return {
       emoji,
       SKIN_TONES,
@@ -109,6 +117,8 @@ export default defineComponent({
       hasSkinTones,
       native,
       unicodeToEmoji,
+      isNativeOnlyEmoji,
+      emojiSrc,
       platform,
       hasError,
     }

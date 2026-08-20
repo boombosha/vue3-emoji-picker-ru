@@ -18,13 +18,15 @@
               @mouseenter="handleMouseEnter(emoji)"
               @click="handleClick(emoji)"
             >
-              <!-- Native emoji -->
-              <span v-if="native">{{ unicodeToEmoji(emoji.r) }}</span>
+              <!-- Native emoji / signs without Apple PNG -->
+              <span v-if="native || isNativeOnlyEmoji(emoji.r, emojiSrc)">{{
+                unicodeToEmoji(emoji.r)
+              }}</span>
 
-              <!-- Load from CDN when options.native = true -->
+              <!-- Load from CDN when options.native = false -->
               <img
                 v-else
-                :src="EMOJI_REMOTE_SRC + `/${emoji.r}.png`"
+                :src="emojiSrc + `/${emoji.r}.png`"
                 :alt="emoji.n[0]"
                 @error="handleError($event, emoji.r)"
               />
@@ -56,17 +58,14 @@ import {
  */
 import { EmojiRecord, Emoji, Store, EmojiExt } from '../types'
 
-import {
-  EMOJI_REMOTE_SRC,
-  GROUP_NAMES,
-  EMOJI_RESULT_KEY,
-  EMOJI_NAME_KEY,
-} from '../constant'
+import { GROUP_NAMES, EMOJI_RESULT_KEY, EMOJI_NAME_KEY } from '../constant'
 import {
   filterEmojis,
   unicodeToEmoji,
   isMac,
   snakeToCapitalizedCase,
+  isNativeOnlyEmoji,
+  normalizeEmojiSrc,
 } from '../helpers'
 
 export default defineComponent({
@@ -114,6 +113,7 @@ export default defineComponent({
 
     const platform = isMac() ? 'is-mac' : ''
     const native = computed(() => state.options.native)
+    const emojiSrc = computed(() => normalizeEmojiSrc(state.options.emojiSrc))
 
     function handleMouseEnter(emoji: Emoji) {
       updateEmoji(emoji)
@@ -151,13 +151,14 @@ export default defineComponent({
     return {
       emojis,
       bodyInner,
-      EMOJI_REMOTE_SRC,
+      emojiSrc,
       GROUP_NAMES,
       handleClick,
       handleError,
       handleMouseEnter,
       native,
       unicodeToEmoji,
+      isNativeOnlyEmoji,
       EMOJI_RESULT_KEY,
       EMOJI_NAME_KEY,
       hasGroupNames,

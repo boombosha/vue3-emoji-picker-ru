@@ -3,8 +3,11 @@ import {
   unicodeToEmoji,
   filterEmojis,
   snakeToCapitalizedCase,
+  isNativeOnlyEmoji,
+  normalizeEmojiSrc,
 } from '../helpers'
 import emojis from '../data/emojis.json'
+import { EMOJI_REMOTE_SRC } from '../constant'
 
 describe('helpers', () => {
   // Test unicodeToEmoji
@@ -44,5 +47,27 @@ describe('helpers', () => {
   // Test snakeToCapitalizedCase
   it('snakeToCapitalizedCase: Test valid input', () => {
     expect(snakeToCapitalizedCase('hello_world_a')).toBe('Hello World A')
+  })
+
+  it('isNativeOnlyEmoji: standalone signs without Apple images', () => {
+    expect(isNativeOnlyEmoji('2640-fe0f')).toBe(true)
+    expect(isNativeOnlyEmoji('2642-fe0f')).toBe(true)
+    expect(isNativeOnlyEmoji('2695-fe0f')).toBe(true)
+    expect(isNativeOnlyEmoji('1f469-200d-2695-fe0f')).toBe(false)
+    expect(isNativeOnlyEmoji('1f600')).toBe(false)
+    expect(
+      isNativeOnlyEmoji(
+        '2640-fe0f',
+        'https://cdn.jsdelivr.net/npm/emoji-datasource-google@6.0.1/img/google/64'
+      )
+    ).toBe(false)
+  })
+
+  it('normalizeEmojiSrc: falls back to Apple CDN and strips slashes', () => {
+    expect(normalizeEmojiSrc()).toBe(EMOJI_REMOTE_SRC)
+    expect(normalizeEmojiSrc('')).toBe(EMOJI_REMOTE_SRC)
+    expect(normalizeEmojiSrc('https://example.com/emoji/')).toBe(
+      'https://example.com/emoji'
+    )
   })
 })

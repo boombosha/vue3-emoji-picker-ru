@@ -5,6 +5,8 @@ import {
   EMOJI_UNICODE_KEY,
   EMOJI_NAME_KEY,
   EMOJI_RESULT_KEY,
+  APPLE_MISSING_STANDALONE,
+  EMOJI_REMOTE_SRC,
 } from './constant'
 
 /**
@@ -18,6 +20,25 @@ export function unicodeToEmoji(unicode: string) {
     .map((hex) => parseInt(hex, 16))
     .map((hex) => String.fromCodePoint(hex))
     .join('')
+}
+
+/**
+ * Strip trailing slashes so `${src}/${unicode}.png` stays valid.
+ */
+export function normalizeEmojiSrc(src?: string) {
+  const value = (src || EMOJI_REMOTE_SRC).trim()
+  return value.replace(/\/+$/, '') || EMOJI_REMOTE_SRC
+}
+
+/**
+ * Apple CDN has no standalone PNG for these signs — render the glyph instead.
+ * Other sets (e.g. Google/Noto) do ship images for them.
+ */
+export function isNativeOnlyEmoji(unicode: string, remoteSrc?: string) {
+  if (!APPLE_MISSING_STANDALONE.has(unicode)) {
+    return false
+  }
+  return /emoji-datasource-apple/i.test(normalizeEmojiSrc(remoteSrc))
 }
 
 /**

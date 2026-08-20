@@ -36,6 +36,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    emojiSrc: {
+      type: String,
+      default: '',
+    },
     hideSearch: {
       type: Boolean,
       default: false,
@@ -137,6 +141,7 @@ export default defineComponent({
     // Set native prop immediately (synchronously) to avoid initial render with wrong value
     // We need to set it before provide() so components get correct value on first render
     store.updateOptionSync('native', props.native)
+    store.updateOptionSync('emojiSrc', props.emojiSrc)
 
     /**
      * Initialize picker with options
@@ -153,6 +158,7 @@ export default defineComponent({
        */
       await store.updateOptions({
         native: props.native,
+        emojiSrc: props.emojiSrc,
         hideSearch: props.hideSearch,
         hideGroupIcons: props.hideGroupIcons,
         hideGroupNames: props.hideGroupNames,
@@ -180,6 +186,13 @@ export default defineComponent({
       () => props.native,
       (newValue) => {
         store.updateOptionSync('native', newValue)
+      }
+    )
+
+    watch(
+      () => props.emojiSrc,
+      (newValue) => {
+        store.updateOptionSync('emojiSrc', newValue)
       }
     )
 
